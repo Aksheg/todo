@@ -24,4 +24,13 @@ jobs:
        - run: yarn test
          env: 
           CI: true
+
+  deploy: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -t aksheg/todo .
+      - run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - run: docker push aksheg/todo
       
